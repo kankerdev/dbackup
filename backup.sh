@@ -26,10 +26,10 @@ mkdir -p "${BACKUP_DIR}"
 
 # Perform the database dump based on what db utility is installed
 if command -v mysqldump >/dev/null 2>&1; then
-    mysqldump -h "$DB_HOST" -P "${DB_PORT:-'3306'}" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_FILE"
+    mysqldump -h "$DB_HOST" -P "${DB_PORT:-"3306"}" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_FILE"
 elif command -v pg_dump >/dev/null 2>&1; then 
     export PGPASSWORD="${DB_PASSWORD}"
-    pg_dump -h "$DB_HOST" -p "${DB_PORT:-'5432'}" -U "$DB_USERNAME" "$DB_NAME" > "$BACKUP_FILE"
+    pg_dump -h "$DB_HOST" -p "${DB_PORT:-"5432"}" -U "$DB_USERNAME" "$DB_NAME" > "$BACKUP_FILE"
 else
     echo "This condition should be impossible to reach... What did you do??!!"
     exit 1
