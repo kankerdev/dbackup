@@ -42,7 +42,7 @@ jobs:
           push: true
           platforms: ${{ matrix.platform }}
           tags: ${{ steps.image-metadata.outputs.tags }}
-          build-args: IMAGE_TAG=${{ matrix.type }}
+          args: IMAGE_TAG=${{ matrix.type }}
 
   merge:
     runs-on: ubuntu-20.04

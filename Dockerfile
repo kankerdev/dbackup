@@ -8,6 +8,8 @@ RUN apk add --no-cache \
     curl \
     rclone
 
+RUN echo "IMAGE_TAG=$IMAGE_TAG"
+
 RUN if [ -z "$IMAGE_TAG" ]; then \
         echo "No IMAGE_TAG specified. Exiting." && exit 1 \
     elif [ "$IMAGE_TAG" = "mariadb" ]; then \
