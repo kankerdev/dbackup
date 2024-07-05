@@ -11,11 +11,11 @@ RUN apk add --no-cache \
 RUN echo "IMAGE_TAG=$IMAGE_TAG"
 
 RUN if [ -z "$IMAGE_TAG" ]; then \
-        echo "No IMAGE_TAG specified. Exiting." && exit 1 \
+        echo "No IMAGE_TAG specified. Exiting." && exit 1; \
     elif [ "$IMAGE_TAG" = "mariadb" ]; then \
-        apk add --no-cache mariadb-client \
+        apk add --no-cache mariadb-client; \
     elif [ "$IMAGE_TAG" = "postgresql"]; then \
-        apk add --no-cache postgresql-client \
+        apk add --no-cache postgresql-client; \
     fi
 
 
