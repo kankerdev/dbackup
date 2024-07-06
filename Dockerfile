@@ -14,7 +14,7 @@ RUN if [ -z "$IMAGE_TAG" ]; then \
         echo "No IMAGE_TAG specified. Exiting." && exit 1; \
     elif [ "$IMAGE_TAG" = "mariadb" ]; then \
         apk add --no-cache mariadb-client; \
-    elif [ "$IMAGE_TAG" = "postgresql"]; then \
+    elif [ "$IMAGE_TAG" = "postgresql" ]; then \
         apk add --no-cache postgresql-client; \
     fi
 
