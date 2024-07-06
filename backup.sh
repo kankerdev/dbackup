@@ -22,13 +22,13 @@ RCLONE_REMOTE=${RCLONE_REMOTE:-""}
 RCLONE_CONFIG=${RCLONE_CONFIG:-"/rclone.conf"}
 
 # Create backup dir if it doesn't exist
-mkdir -p "${BACKUP_DIR}"
+mkdir -p "$BACKUP_DIR"
 
 # Perform the database dump based on what db utility is installed
 if command -v mysqldump >/dev/null 2>&1; then
     mysqldump -h "$DB_HOST" -P "${DB_PORT:-"3306"}" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_NAME" > "$BACKUP_FILE"
 elif command -v pg_dump >/dev/null 2>&1; then 
-    export PGPASSWORD="${DB_PASSWORD}"
+    export PGPASSWORD="$DB_PASSWORD"
     pg_dump -h "$DB_HOST" -p "${DB_PORT:-"5432"}" -U "$DB_USERNAME" "$DB_NAME" > "$BACKUP_FILE"
 else
     echo "This condition should be impossible to reach... What did you do??!!"
@@ -53,7 +53,7 @@ if [ -n "$RESTIC_PASSWORD" ]; then
     fi
 
     # Backup sql dump file
-    restic --repo "$BACKUP_DIR" backup "$BACKUP_FILE" --tag "sqldump" --host "dbackup" --password-file=/tmp/restic_password
+    cat "$BACKUP_FILE" | restic --repo "$BACKUP_DIR" backup --stdin --stdin-filename="${DB_NAME}.sql" --tag "sqldump" --host "dbackup" --password-file=/tmp/restic_password
 
     # Cleanup  
     [ -n "$RESTIC_PRUNE_ARGS" ] && restic --repo "$BACKUP_DIR" forget --password-file=/tmp/restic_password $RESTIC_PRUNE_ARGS
