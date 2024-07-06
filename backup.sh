@@ -56,7 +56,7 @@ if [ -n "$RESTIC_PASSWORD" ]; then
     cat "$BACKUP_FILE" | restic --repo "$BACKUP_DIR" backup --stdin --stdin-filename="${DB_NAME}.sql" --tag "sqldump" --host "dbackup" --password-file=/tmp/restic_password
 
     # Cleanup  
-    [ -n "$RESTIC_PRUNE_ARGS" ] && restic --repo "$BACKUP_DIR" forget --password-file=/tmp/restic_password $RESTIC_PRUNE_ARGS
+    [ -n "$RESTIC_PRUNE_ARGS" ] && restic --repo "$BACKUP_DIR" forget --password-file=/tmp/restic_password $RESTIC_PRUNE_ARGS --prune
 
     rm /tmp/restic_password $BACKUP_FILE
 fi
