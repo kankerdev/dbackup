@@ -62,13 +62,18 @@ if [ -n "$RESTIC_PASSWORD" ]; then
 fi
 
 # Sync backup dir to remote using Rclone if $RCLONE_REMOTE is set
-if [ -n "$RCLONE_REMOTE" ]; then 
-    rclone --config="$RCLONE_CONFIG" sync "$BACKUP_DIR" "$RCLONE_REMOTE"
+if [ -n "$RCLONE_REMOTE" ]; then
+    # https://github.com/rclone/rclone/issues/6656
+    cp "$RCLONE_CONFIG" /tmp/rclone.conf
+
+    rclone --config=/tmp/rclone.conf sync "$BACKUP_DIR" "$RCLONE_REMOTE"
 
     if [ $? -eq 0 ]; then 
         echo "Rclone sync to remote successful"
+        rm /tmp/rclone.conf
     else
         echo "Rclone sync to remote failed"
+        rm /tmp/rclone.conf
         exit 1
     fi
 fi
